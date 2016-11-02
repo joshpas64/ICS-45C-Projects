@@ -1,0 +1,22 @@
+Please take note that what I am telling you is in the context of UNIX/ Linux 
+
+For ICS 45C go to project directory using cd (dir in DOS) 
+use ./build to compile
+use ./run to run
+
+./somefile means execute some file as a program (note you must have execute permisssions on the file and its directory 
+on the Operating System in order to do thiss
+
+to take input from a file instead of the command line prompt use
+
+./run < Inputfile
+in this context 
+./run < input/proj1sample.txt
+
+to redirect output
+
+./run > outfile
+
+can use both as well
+
+./run <Inputfile >outfile
