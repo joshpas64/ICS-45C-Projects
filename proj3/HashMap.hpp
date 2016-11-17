@@ -27,6 +27,21 @@
 #include <string> //for strings
 #include "Hashfunction.hpp" // A collection of Hashfunctions to set hasher equal to, default is ELFHash
 
+//This is just a suggestion but unless you are experienced with data structures, pointers, and references in C++ or at least Java
+// I would suggest either looking at the files named "LinkedList.hpp" and "LinkedList.cpp" in the proj3 folder or look online 
+// about LinkedLists, namely deallocating (~destructing) initializing, reassigning( = ), and moving them these could be the BIG 3 when
+// creating a class
+
+// Also make sure you know how to add nodes, iterate through the list, remove Nodes, and if it is a singly Linked List how to reverse 
+// through it in a way that does not ruin its structure or create memory leaks or allocation or read or write errors
+
+// Once you know how to initialize, destruct, reassign a LinkedList and add and remove Nodes from it properly, HashMap is a much easier
+// class to implement since the buckets is just a dynamically array of linked lists. And the HashFunction just gives which index in the
+// array where in that Linked List, the key,value is just added, removed, checked, etc
+
+// The only tricky method is the reHash() but with a proper HashFunction rehashing is somewhat like copying and deleting linked lists' 
+// contents to a new array, which is a mix of the functionality in either creating or destroying a linked list or hashmap
+
 
 class HashMap
 {
