@@ -11,6 +11,7 @@
 
 int main()
 {
+	//Commented code below were just tests when constructing the HashMap class
 	/*
 	HashMap hm = HashMap(simpleHash);
 	hm.add("pascascio.joshua@yahoo.com","83290");
@@ -31,8 +32,10 @@ int main()
 	hm = HashMap();
 	std::cout << hm.bucketCount() << std::endl;
 	*/
+	//Make an interface object, which will include a HashMap object and references to some HashFunctions
 	Interface i = Interface();
-	i.run();
+	i.run(); //Run the interface for the user until the user wishes to terminate
+	//termination in this case is when the run() returns which is when cont == -1 which is when user enters QUIT
 	return 0;
 }
 
