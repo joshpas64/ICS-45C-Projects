@@ -20,11 +20,12 @@
 #ifndef HASHMAP_HPP
 #define HASHMAP_HPP
 
-#include <iostream>
+#include <iostream> //This was for testing output to see what was contained in each Nodelist as I created and tested HashMap
+//Can comment above line out for final version
 
-#include <functional>
-#include <string>
-#include "Hashfunction.hpp"
+#include <functional> // To make functions as vaRiables
+#include <string> //for strings
+#include "Hashfunction.hpp" // A collection of Hashfunctions to set hasher equal to, default is ELFHash
 
 
 class HashMap
@@ -47,7 +48,7 @@ public:
     //     It will be the job of the HashMap class to reduce the results
     //     to the range of available bucket indices (e.g., by using the
     //     % operator).
-    typedef std::function<unsigned int(const std::string&)> HashFunction;
+    typedef std::function<unsigned int(const std::string&)> HashFunction; 
 
     // This constant specifies the number of buckets that a HashMap will
     // have when it is initially constructed.
@@ -73,6 +74,8 @@ public:
     HashMap(const HashMap& hm);
     ~HashMap();
     HashMap& operator=(const HashMap& hm);
+    //Remember when using this operator you must deallocate whatever is in the this object (left
+    // side argument)
 
     // add() takes a key and a value.  If the key is not already stored in
     // this HashMap, the key/value pair is added; if the key is already
@@ -123,7 +126,7 @@ public:
     // HashMap's largest bucket.
     unsigned int maxBucketSize() const;
     //EDIT 
-    void output() const;
+    void output() const; //outputs each node, first give its index and then gives all of its key,value pairs as outputs
 private:
     // This structure describes the nodes that make up the linked lists in
     // each of this HashMap's buckets.
@@ -142,17 +145,21 @@ private:
     // function.
     HashFunction hasher;
     //EDITS START HERE
-    
-    Node** buckets;
-    unsigned int bucketTotal;
-    unsigned int tableSize;
-    void reHash();
-    unsigned int getBucketLength(unsigned int index) const;
-    unsigned int applyHash(const std::string &key) const;
-    void setBuckets();
-    unsigned int findMaxIndex();
+    //These are private member variables only to be used by methods in HashMap
+    Node** buckets; //The actual buckets of the HashMap, each bucket is a linked list
+    // buckets is a dynamically allocated array of Node pointers, in this case, a Node pointer is 
+    /// an equivalent of a linked list
+    unsigned int bucketTotal; //Number of buckets in hashMap, can grow if load factor rises above 0.8
+    unsigned int tableSize; //Number of ALL key value pairs in the hashMap, can grow and shrink
+    ///Below are the private member functions that can only be called within HashMap
+    void reHash(); //Increases total number of buckets and rehashes each key into a new or different bucket 
+    //if necessary
+    unsigned int getBucketLength(unsigned int index) const; //Amount of nodes in a linked list
+    unsigned int applyHash(const std::string &key) const; //Find the bucket that a key should go to, is dependent 
+    // on bucketTotal or number of buckets in a HashMap
+    void setBuckets(); //Initializes all buckets in the HashMap due to bucketTotal, each bucket starts as a nullptr
     void destroyNode(Node* node);
-
+    //Deallocation of one singly linked list
     //EDITS END HERE
 
 
