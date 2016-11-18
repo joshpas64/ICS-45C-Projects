@@ -1,0 +1,13 @@
+CREATE thornton@ics.uci.edu abcdefg
+CREATE boo@thornton.com sleeping
+DEBUG ON
+LOAD FACTOR
+MAX BUCKET SIZE
+LOGIN COUNT
+BUCKET COUNT
+REMOVE thornton@ics.uci.edu
+MAX BUCKET SIZE
+LOAD FACTOR
+LOGIN COUNT
+BUCKET COUNT
+QUIT
