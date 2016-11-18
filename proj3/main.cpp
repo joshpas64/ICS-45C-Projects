@@ -1,13 +1,7 @@
-// expmain.cpp
-//
-// Do whatever you'd like here.  This is intended to allow you to experiment
-// with the code in the "app" directory or with any additional libraries
-// that are part of the project, outside of the context of the main
-// application or Google Test.
-#include "linkedlist.hpp"
-#include "Hashfunction.hpp"
-#include "HashMap.hpp"
-#include "interface.hpp"
+
+#include "interfaceDemo.hpp"
+//Since interfaceDemo includes iostream, sstream, and HashMap, and HashMap include functional, string, and HashFunction
+//The only file to explicitly include is interfaceDemo.hp
 
 int main()
 {
@@ -33,9 +27,10 @@ int main()
 	std::cout << hm.bucketCount() << std::endl;
 	*/
 	//Make an interface object, which will include a HashMap object and references to some HashFunctions
-	Interface i = Interface();
-	i.run(); //Run the interface for the user until the user wishes to terminate
+	//Run the interface for the user until the user wishes to terminate
 	//termination in this case is when the run() returns which is when cont == -1 which is when user enters QUIT
-	return 0;
+	InterfaceDemo i = InterfaceDemo();
+	i.run();
+    	return 0;
 }
 
