@@ -91,15 +91,8 @@ HashMap::~HashMap()
 	delete[] buckets; //Delete the array contents since it is just filled with nullptr's now
 }
 
-void HashMap::setBuckets()
-{
-	buckets = new HashMap::Node*[bucketTotal]; //Make a dynamically allocated array of Node pointers based on the current number
-	// of buckets
-	for(unsigned int i = 0; i < bucketTotal; i++)
-	{
-		buckets[i] = nullptr; //Initialize each linked list to a nullptr
-	}
-}
+// Public Methods Begin Here
+
 unsigned int HashMap::bucketCount() const
 {
 	return bucketTotal; //bucketTotal getMethod
@@ -198,36 +191,6 @@ void HashMap::add(const std::string &key, const std::string &value)
 	}
 }
 
-void HashMap::reHash()
-{
-	unsigned int oldTotal = bucketTotal; //Store a value of the old bucketTotal
-	tableSize = 0;
-	bucketTotal = ((bucketTotal * 2) + 1); //Increase the bucketTotal 
-	HashMap::Node **oldNotes = buckets; //Save a pointer to the old buckets array (the one that had the load factor above 0.8
-	//    that called rehHash() to be called in the first place
-	buckets = new HashMap::Node* [bucketTotal]; //Make an initialize a new array of empty linked lists with a now increased size
-	for(unsigned int j = 0; j < bucketTotal; j++)
-	{
-		buckets[j] = nullptr; //Initialize each linked list in buckets to be a nullptr
-	}
-	for(unsigned int i = 0; i < oldTotal; i++) //Iterate through the old buckets array and add each key,value pair to the new
-		// buckets array, deleting each node along the way
-	{
-		HashMap::Node *node = oldNotes[i]; //Current start of each Linked List
-		if(node == nullptr) //Skip to next linked list if the current linked list is empty
-			continue;
-		HashMap::Node *temp = node->next; //Have a temp pointer that will point to the current Node being added to the new array
-		// of linked lists, and later delete
-		while(node != nullptr)
-		{
-			add(node->key,node->value); //Add the key,value pair to new array of linked lists
-			temp = node; //Point to current node
-			node = node->next; //Prepare to move to the next node
-			delete temp; //Delete the current node
-		}
-	}
-	delete[] oldNotes; //All pointers in the oldarray are just nullptrs so the content of oldNotes can be deallocated
-}
 void HashMap::remove(const std::string& key) //Removes a Node from a HashMap object
 {
 	unsigned int bucketIndex = applyHash(key); //Get its potential index in the linked list array
@@ -259,24 +222,6 @@ void HashMap::remove(const std::string& key) //Removes a Node from a HashMap obj
 	}
 }
 
-unsigned int HashMap::applyHash(const std::string &key) const
-{
-	unsigned int hashKey = hasher(key); //HashValue may be greater than bucketTotal
-	unsigned int bucket = hashKey % bucketTotal; //Offset it with % operator
-	return bucket;
-}
-
-unsigned int HashMap::getBucketLength(unsigned int index) const
-{
-	unsigned int length = 0; //Default of 0
-	HashMap::Node *node = buckets[index]; //Start at current Node
-	while(node != nullptr)
-	{
-		length++; //Add to next such that each node's next does point to NULL
-		node = node->next; // Move to next Node
-	}
-	return length;
-}
 std::string HashMap::value(const std::string &key) const
 {
 	std::string val = ""; //Default of empty string
@@ -311,20 +256,6 @@ unsigned int HashMap::maxBucketSize() const
 	return currentMax; //Return Max length
 }
 
-void HashMap::destroyNode(HashMap::Node *node) //Deallocate a Singly Linked List
-{
-	if(node == nullptr) //Since all nullptrs get deallocated at the end of HashMap in its destructor 
-		return;
-	HashMap::Node *currNode = node; //Start at the First Node of Linked List
-	HashMap::Node *temp = currNode->next;
-	while(currNode != nullptr)
-	{
-		temp = currNode; //Store a pointer to the current Node
-		currNode = currNode->next;//Move to the next Node
-		delete temp; //Delete the contents of the current Node
-	}
-}
-
 void HashMap::output() const //Was only for testing purposes will remove function once, it is finalized
 {
 	for(unsigned int i = 0; i < bucketTotal; i++)
@@ -344,4 +275,80 @@ void HashMap::output() const //Was only for testing purposes will remove functio
 		}
 	}
 }
+
+//Private Methods Begin Here
+
+void HashMap::setBuckets()
+{
+	buckets = new HashMap::Node*[bucketTotal]; //Make a dynamically allocated array of Node pointers based on the current number
+	// of buckets
+	for(unsigned int i = 0; i < bucketTotal; i++)
+	{
+		buckets[i] = nullptr; //Initialize each linked list to a nullptr
+	}
+}
+void HashMap::reHash()
+{
+	unsigned int oldTotal = bucketTotal; //Store a value of the old bucketTotal
+	tableSize = 0;
+	bucketTotal = ((bucketTotal * 2) + 1); //Increase the bucketTotal 
+	HashMap::Node **oldNotes = buckets; //Save a pointer to the old buckets array (the one that had the load factor above 0.8
+	//    that called rehHash() to be called in the first place
+	buckets = new HashMap::Node* [bucketTotal]; //Make an initialize a new array of empty linked lists with a now increased size
+	for(unsigned int j = 0; j < bucketTotal; j++)
+	{
+		buckets[j] = nullptr; //Initialize each linked list in buckets to be a nullptr
+	}
+	for(unsigned int i = 0; i < oldTotal; i++) //Iterate through the old buckets array and add each key,value pair to the new
+		// buckets array, deleting each node along the way
+	{
+		HashMap::Node *node = oldNotes[i]; //Current start of each Linked List
+		if(node == nullptr) //Skip to next linked list if the current linked list is empty
+			continue;
+		HashMap::Node *temp = node->next; //Have a temp pointer that will point to the current Node being added to the new array
+		// of linked lists, and later delete
+		while(node != nullptr)
+		{
+			add(node->key,node->value); //Add the key,value pair to new array of linked lists
+			temp = node; //Point to current node
+			node = node->next; //Prepare to move to the next node
+			delete temp; //Delete the current node
+		}
+	}
+	delete[] oldNotes; //All pointers in the oldarray are just nullptrs so the content of oldNotes can be deallocated
+}
+
+unsigned int HashMap::applyHash(const std::string &key) const
+{
+	unsigned int hashKey = hasher(key); //HashValue may be greater than bucketTotal
+	unsigned int bucket = hashKey % bucketTotal; //Offset it with % operator
+	return bucket;
+}
+
+unsigned int HashMap::getBucketLength(unsigned int index) const
+{
+	unsigned int length = 0; //Default of 0
+	HashMap::Node *node = buckets[index]; //Start at current Node
+	while(node != nullptr)
+	{
+		length++; //Add to next such that each node's next does point to NULL
+		node = node->next; // Move to next Node
+	}
+	return length;
+}
+
+void HashMap::destroyNode(HashMap::Node *node) //Deallocate a Singly Linked List
+{
+	if(node == nullptr) //Since all nullptrs get deallocated at the end of HashMap in its destructor 
+		return;
+	HashMap::Node *currNode = node; //Start at the First Node of Linked List
+	HashMap::Node *temp = currNode->next;
+	while(currNode != nullptr)
+	{
+		temp = currNode; //Store a pointer to the current Node
+		currNode = currNode->next;//Move to the next Node
+		delete temp; //Delete the contents of the current Node
+	}
+}
+
 
