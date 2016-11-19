@@ -202,8 +202,9 @@ void HashMap::remove(const std::string& key) //Removes a Node from a HashMap obj
 		{
 			if(prev->key.compare(key) == 0) //Only case where prev's key is the same node's key is if the node is the first one in the llist
 			{
-				delete node; //Delete Node's contents
 				buckets[bucketIndex] = prev->next; //Have the start of the linked list point to the second Node instead
+				delete node; //Delete Node's contents
+				
 			}
 			else
 			{
