@@ -11,7 +11,7 @@ stored, updated, and deleted at any time and go up to a certain amount that coul
 to implement vector and strings, since they are already defined in a way where they do not leak memory, and have many useful built in methods.
 A stack object was easiest data structure I found for the undo and redo history.
 
-The files that are my own are 
+The files that are my own are in the /app directory as
 1. HomeCommand.hpp and HomeCommand.cpp
 2. DelLine.cpp and DelLine.hpp
 3. insertChar.hpp and insertChar.cpp
