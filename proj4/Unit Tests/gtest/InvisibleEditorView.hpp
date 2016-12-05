@@ -9,7 +9,7 @@
 // exactly what you want if you're going to unit test parts of BooEdit.
 //
 // DO NOT MODIFY THIS FILE
-
+// Editor View Unit Test
 #ifndef INVISIBLEEDITORVIEW_HPP
 #define INVISIBLEEDITORVIEW_HPP
 
