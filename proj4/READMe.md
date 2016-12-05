@@ -32,3 +32,6 @@ The files that needed editing were
 1. EditorModel.hpp and EditorModel.cpp
 2. InteractionProcessor.cpp
 3. KeypressInteractionReader.cpp
+
+Also the instructor does provide the opportunity to write and execute unit tests on the program and provides templates. In this case,
+I did not need to implement any or could not think of any specific ones so that folder is unedited.
